@@ -1,0 +1,6 @@
+{
+    "dotnetAcquisitionExtension.sharedExistingDotnetPath": "${workspaceFolder}/.vscode/mise-tools/dotnet",
+    "debug.javascript.defaultRuntimeExecutable": {
+        "pwa-node": "${workspaceFolder}/.vscode/mise-tools/node"
+    }
+}
