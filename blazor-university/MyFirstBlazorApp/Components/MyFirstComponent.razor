@@ -1,0 +1,18 @@
+<div>
+    CurrentCounterValue in MyFirstComponent is @currentCount
+    <MySecondComponent CurrentCounterValue=@currentCount />
+    <button @onclick=IncrementCount>Increment</button>
+</div>
+
+@code {
+    private int currentCount = 1;
+
+    [Parameter] public EventCallback<int> OnMultipleOfThree { get; set; }
+
+    private async Task IncrementCount()
+    {
+        currentCount++;
+        if (currentCount % 3 == 0)
+            await OnMultipleOfThree.InvokeAsync(currentCount);
+    }
+}

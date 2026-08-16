@@ -2,6 +2,24 @@
 
 <PageTitle>Home</PageTitle>
 
-<h1>Hello, world!</h1>
+<div>
+    Last multiple of three was @lastMultipleOfThree
+    <MyFirstComponent OnMultipleOfThree=@UpdateLastMultipleOfThree />
+    <ComponentWithSlots>
+        <HeaderSlot>
+            test
+        </HeaderSlot>
+        <ChildContent>
+            first !
+        </ChildContent>
+    </ComponentWithSlots>
+</div>
 
-Welcome to your new app.
+@code {
+    private int lastMultipleOfThree = 0;
+
+    private void UpdateLastMultipleOfThree(int n)
+    {
+        lastMultipleOfThree = n;
+    }
+}

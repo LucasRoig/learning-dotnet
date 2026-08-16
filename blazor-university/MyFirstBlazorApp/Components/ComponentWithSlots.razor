@@ -1,0 +1,14 @@
+<div style="background-color: red;">
+    <div style="background-color: aqua; margin: 8px;">
+        @HeaderSlot
+    </div>
+    @ChildContent
+</div>
+
+@code {
+    [Parameter]
+    public required RenderFragment ChildContent {get; set;}
+
+    [Parameter]
+    public required RenderFragment HeaderSlot {get; set;}
+}
