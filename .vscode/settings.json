@@ -1,6 +1,6 @@
 {
-    "dotnetAcquisitionExtension.sharedExistingDotnetPath": "${workspaceFolder}/.vscode/mise-tools/dotnet",
+    "dotnetAcquisitionExtension.sharedExistingDotnetPath": "/home/lucas/.local/share/mise/shims/dotnet",
     "debug.javascript.defaultRuntimeExecutable": {
-        "pwa-node": "${workspaceFolder}/.vscode/mise-tools/node"
+        "pwa-node": "/home/lucas/.local/share/mise/shims/node"
     }
 }

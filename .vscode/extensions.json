@@ -1,6 +1,7 @@
 {
     "recommendations": [
         "hverlin.mise-vscode",
-        "ms-dotnettools.csdevkit"
+        "ms-dotnettools.csdevkit",
+        "ms-dotnettools.csharp",
     ]
 }
