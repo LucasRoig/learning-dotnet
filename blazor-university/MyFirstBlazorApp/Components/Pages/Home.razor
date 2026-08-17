@@ -1,6 +1,57 @@
 ﻿@page "/"
 
+@using MyFirstBlazorApp.Components.Tabs
+
 <PageTitle>Home</PageTitle>
+
+
+<DataList Data=@People>
+    @context.Salutation <b>@context.GivenName</b> @context.FamilyName
+</DataList>
+
+<ComposableDataList Items=@People>
+    <ListTemplate>
+        <table border=1 cellpadding=4>
+            <thead>
+                <tr>
+                    <th>Salutation</th>
+                    <th>Given name</th>
+                    <th>Family name</th>
+                </tr>
+            </thead>
+            <tbody>
+                @context
+            </tbody>
+        </table>
+    </ListTemplate>
+    <ItemTemplate>
+        <tr @key=@context>
+            <td>@context.Salutation</td>
+            <td>@context.GivenName</td>
+            <td>@context.FamilyName</td>
+        </tr>
+    </ItemTemplate>
+</ComposableDataList>
+
+<ComposableDataList Items=@People>
+</ComposableDataList>
+
+<TabControl>
+    <TabTextTemplate>
+        Hello @context.Text
+    </TabTextTemplate>
+    <Tabs>
+        <TabPage Text="Tab 1">
+            <h1>The first tab</h1>
+        </TabPage>
+        <TabPage Text="Tab 2">
+            <h1>The second tab</h1>
+        </TabPage>
+        <TabPage Text="Tab 3">
+            <h1>The third tab</h1>
+        </TabPage>
+    </Tabs>
+</TabControl>
 
 <div>
     Last multiple of three was @lastMultipleOfThree
@@ -21,5 +72,18 @@
     private void UpdateLastMultipleOfThree(int n)
     {
         lastMultipleOfThree = n;
+    }
+    private IEnumerable<Person> People = new Person[]
+        {
+      new Person { Salutation = "Mr", GivenName = "Bob", FamilyName = "Geldof" },
+      new Person { Salutation = "Mrs", GivenName = "Angela", FamilyName = "Rippon" },
+      new Person { Salutation = "Mr", GivenName = "Freddie", FamilyName = "Mercury" }
+        };
+
+    public class Person
+    {
+        public string Salutation { get; set; } = string.Empty;
+        public string GivenName { get; set; } = string.Empty;
+        public string FamilyName { get; set; } = string.Empty;
     }
 }

@@ -1,0 +1,59 @@
+<CascadingValue Value="this">
+    @Tabs
+    <div class="btn-group" role="group">
+        @foreach (var tabPage in Pages)
+        {
+            <button type="button" class="btn @GetButtonClass(tabPage)"
+                    @onclick="@(() => ActivatePage(tabPage))">
+            @if (TabTextTemplate is not null)
+            {
+                @TabTextTemplate(tabPage)
+            }
+            else
+            {
+                @tabPage.Text
+            }
+            </button>
+        }
+    </div>
+    @if (ActivePage is not null)
+    {
+        <div class="card">
+            <div class="card-body">
+                @ActivePage?.ChildContent
+            </div>
+        </div>
+    }
+</CascadingValue>
+
+@code {
+    // Next line is needed so we are able to add <TabPage> components inside
+    [Parameter, EditorRequired]
+    public required RenderFragment Tabs { get; set; }
+    [Parameter]
+    public RenderFragment<TabPage>? TabTextTemplate { get; set; }
+
+    public TabPage? ActivePage { get; set; }
+    List<TabPage> Pages = new List<TabPage>();
+
+    internal void AddPage(TabPage page)
+    {
+        Pages.Add(page);
+        if (Pages.Count == 1)
+        {
+            this.ActivePage = page;
+        }
+        this.StateHasChanged();
+    }
+
+    string GetButtonClass(TabPage page)
+    {
+        return page == ActivePage ? "btn-primary" : "btn-secondary";
+    }
+
+    void ActivatePage(TabPage page)
+    {
+        ActivePage = page;
+    }
+}
+

@@ -1,0 +1,42 @@
+@typeparam TItem
+
+@ListTemplate(
+    @:@{
+        foreach (TItem item in Items)
+        {
+            @ItemTemplate(item)
+        }
+    }
+)
+
+
+@code {
+    [Parameter, EditorRequired]
+    public required IEnumerable<TItem> Items { get; set; }
+
+    [Parameter]
+    public RenderFragment<TItem>? ItemTemplate { get; set; }
+
+    [Parameter]
+    public RenderFragment<RenderFragment>? ListTemplate { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        if (this.ItemTemplate == null)
+        {
+            this.ItemTemplate = (item) => @:@{
+                <li @key=item>@item.ToString()</li>
+            }
+;
+        }
+        if (this.ListTemplate == null)
+        {
+            this.ListTemplate = (content) => @:@{
+                <ul style="margin-top: 30px">
+                    @content
+                </ul>
+            }
+;
+        }
+    }
+}
