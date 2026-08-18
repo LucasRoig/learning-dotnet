@@ -1,4 +1,5 @@
 using MyFirstBlazorApp.Components;
+using MyFirstBlazorApp.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,6 +8,7 @@ builder.Services.AddValidation();
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
     
+builder.Services.AddScoped<WeatherForecastServiceNotThreadSafe>();
 
 var app = builder.Build();
 
