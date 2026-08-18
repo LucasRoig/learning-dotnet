@@ -1,0 +1,2 @@
+[tasks.tailwind]
+run = "tailwindcss -i ./Styles/app.tailwind.css -o ./wwwroot/app.tailwind.css --watch"
