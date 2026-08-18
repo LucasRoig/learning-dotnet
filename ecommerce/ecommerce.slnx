@@ -1,0 +1,7 @@
+<Solution>
+  <Folder Name="/src/" />
+  <Folder Name="/src/WebApp/">
+    <Project Path="src/WebApp/Ecommerce.WebApp.Client/Ecommerce.WebApp.Client.csproj" />
+    <Project Path="src/WebApp/Ecommerce.WebApp/Ecommerce.WebApp.csproj" />
+  </Folder>
+</Solution>
