@@ -1,0 +1,16 @@
+﻿@page "/"
+@rendermode InteractiveAuto
+<PageTitle>Home</PageTitle>
+
+<MudText Typo="Typo.h1">Hello, world!</MudText>
+
+<MudText Typo="Typo.body1">Welcome to your new app.</MudText>
+
+<MudButton Variant="Variant.Filled" Color="Color.Primary" Class="text-yellow-600"  OnClick=@OnClick>Primary</MudButton>
+
+@code {
+    private void OnClick()
+    {
+        System.Console.WriteLine("Button clicked!");
+    }
+}
