@@ -1,0 +1,6 @@
+<Solution>
+  <Folder Name="/TailwindIntegration/">
+    <Project Path="TailwindIntegration/TailwindIntegration.Client/TailwindIntegration.Client.csproj" />
+    <Project Path="TailwindIntegration/TailwindIntegration/TailwindIntegration.csproj" />
+  </Folder>
+</Solution>
