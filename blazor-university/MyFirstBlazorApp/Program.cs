@@ -2,9 +2,11 @@ using MyFirstBlazorApp.Components;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddValidation();
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+    
 
 var app = builder.Build();
 

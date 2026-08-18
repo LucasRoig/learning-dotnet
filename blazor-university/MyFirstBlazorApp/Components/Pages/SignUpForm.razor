@@ -1,0 +1,57 @@
+@page "/signup"
+@using System.ComponentModel.DataAnnotations
+
+<div style="max-width: 300px;">
+    <EditForm Model=@Model OnSubmit=@HandleSubmit>
+        <DataAnnotationsValidator />
+        <div class="form-group">
+            <label for="FirstName">FirstName</label>
+            <InputText @bind-Value=Model.FirstName class="form-control" id="FirstName" />
+            <ValidationMessage For="() => Model.FirstName" />
+        </div>
+        <div class="form-group">
+            <label for="LastName">LastName</label>
+            <InputText @bind-Value=Model.LastName class="form-control" id="LastName" />
+            <ValidationMessage For="() => Model.LastName" />
+        </div>
+        <div class="form-group">
+            <label for="EmailAddress">EmailAddress</label>
+            <InputText @bind-Value=Model.EmailAddress class="form-control" id="EmailAddress" />
+            <ValidationMessage For="() => Model.EmailAddress" />
+        </div>
+        <div class="form-group">
+            <label for="Password">Password</label>
+            <InputText @bind-Value=Model.Password class="form-control" id="Password" type="password" />
+            <ValidationMessage For="() => Model.Password" />
+        </div>
+        <ValidationSummary />
+        <button type="submit" class="btn btn-primary">Save</button>
+    </EditForm>
+</div>
+
+@code {
+    [ValidatableType] class SignUpModel
+    {
+        [Required] public string FirstName { get; set; } = string.Empty;
+        [Required] public string LastName { get; set; } = string.Empty;
+        [Required][EmailAddress] public string EmailAddress { get; set; } = string.Empty;
+        [Required] public string Password { get; set; } = string.Empty;
+    }
+
+    private SignUpModel Model = new SignUpModel();
+
+    void HandleSubmit(EditContext editContext)
+    {
+
+        if (editContext.Validate())
+        {
+            @* LastSubmitResult = "OnValidSubmit was executed"; *@
+        }
+        else
+        {
+            @* LastSubmitResult = "OnInvalidSubmit was executed"; *@
+        }
+
+        // Handle the form submission
+    }
+}
