@@ -14,11 +14,20 @@
 
     private string ActiveClass => IsActive ? "mud-chip-text mud-chip-color-primary font-semibold" : "";
 
-    private bool IsActive =>
-        href == "/"
-            ? NavigationManager.ToBaseRelativePath(NavigationManager.Uri).TrimEnd('/') == ""
-            : NavigationManager.ToBaseRelativePath(NavigationManager.Uri).StartsWith(href.TrimStart('/'),
-StringComparison.OrdinalIgnoreCase);
+    private bool IsActive {
+        get {
+            var currentUri = NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
+            var suffixIndex = currentUri.IndexOfAny(new[] { '?', '#' });
+            if (suffixIndex >= 0) {
+                currentUri = currentUri.Substring(0, suffixIndex);
+            }
+            return string.Equals(
+                currentUri.Trim('/'),
+                href.Trim('/'),
+                StringComparison.OrdinalIgnoreCase
+            );
+        }
+    }
 
     protected override void OnInitialized()
     {
