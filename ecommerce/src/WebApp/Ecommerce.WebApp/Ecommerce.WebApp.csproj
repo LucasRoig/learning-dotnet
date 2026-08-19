@@ -8,11 +8,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MudBlazor" Version="9.8.0" />
+    <PackageReference Include="MudBlazor" Version="9.8.0" GeneratePathProperty="true" />
     <ProjectReference Include="..\Ecommerce.WebApp.Client\Ecommerce.WebApp.Client.csproj" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="10.0.9" />
   </ItemGroup>
 
+  <Target Name="CopyMudBlazorCss" BeforeTargets="TailwindBuild">
+    <Copy SourceFiles="$(PkgMudBlazor)\staticwebassets\MudBlazor.min.css"
+      DestinationFolder="$(MSBuildProjectDirectory)\Styles\vendor" />
+  </Target>
   <Target Name="TailwindBuild" BeforeTargets="Build">
     <Exec Command="tailwindcss -i ./Styles/app.tailwind.css -o ./wwwroot/app.tailwind.css --minify" />
   </Target>

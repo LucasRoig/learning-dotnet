@@ -1,4 +1,5 @@
-﻿@inherits LayoutComponentBase
+﻿@using Ecommerce.WebApp.Components.Layout.NavBar
+@inherits LayoutComponentBase
 
 <MudThemeProvider />
 <MudPopoverProvider />
@@ -6,20 +7,17 @@
 <MudSnackbarProvider />
 
 <div class="flex flex-col min-h-screen">
-  <header class="bg-white shadow-sm">
-    <div class="min-w-[min(1080px, calc(100vw-2rem))] mx-auto">
-
-      This is the header
-    </div>
+  <header class="bg-white shadow-sm  min-w-[min(1080px, calc(100vw-2rem))]">
+    <NavBar />
   </header>
 
   <main class="flex-1 min-w-[min(1080px, calc(100vw-2rem))] mx-auto">
     @Body
   </main>
 
-  <footer class="mt-auto bg-white shadow-sm">
-    <div class="min-w-[min(1080px, calc(100vw-2rem))] mx-auto">
-      This is the footer
+  <footer class="mt-auto bg-white border-t border-gray-200">
+    <div class="min-w-[min(1080px, calc(100vw-2rem))] mx-auto flex justify-between font-medium p-6">
+       <MudText Typo="Typo.body2">funroad, Inc.</MudText>
     </div>
   </footer>
 </div>
