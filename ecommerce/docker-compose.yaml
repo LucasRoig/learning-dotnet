@@ -1,0 +1,13 @@
+services:
+  database:
+    image: mcr.microsoft.com/mssql/server:2025-latest
+    container_name: dotnet-learning-ecommerce-database
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=ChangeThisPassword123!
+      - MSSQL_PID=EnterpriseDeveloper
+      - MSSQL_DB=umbraco
+      - MSSQL_USER=umbraco
+      - MSSQL_PASSWORD=ChangeThisPassword123!
+    ports:
+      - "1433:1433"

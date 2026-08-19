@@ -1,5 +1,7 @@
 <Solution>
-  <Folder Name="/src/" />
+  <Folder Name="/src/">
+    <Project Path="src/CMS/CMS.csproj" />
+  </Folder>
   <Folder Name="/src/WebApp/">
     <Project Path="src/WebApp/Ecommerce.WebApp.Client/Ecommerce.WebApp.Client.csproj" />
     <Project Path="src/WebApp/Ecommerce.WebApp/Ecommerce.WebApp.csproj" />
