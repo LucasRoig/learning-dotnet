@@ -1,0 +1,42 @@
+@using Ecommerce.WebApp.Client.Layout.NavBar
+<nav class="h-20 flex justify-between font-medium bg-white pl-6">
+    <NavLink href="/" class="flex items-center">
+        <span class="text-5xl poppins-semibold text-black">
+            funroad
+        </span>
+    </NavLink>
+
+    <div class="items-center gap-4 hidden lg:flex">
+        @foreach (NavItem navItem in _navItems)
+        {
+            <NavBarItem href="@navItem.Href">
+                @navItem.Text
+            </NavBarItem>
+        }
+    </div>
+
+    <div class="hidden lg:flex">
+        <MudButton Class="flex-1 whitespace-nowrap px-12 rounded-none!" Href="/sign-in">
+            Login
+        </MudButton>
+        <MudButton Href="/sign-up" Variant="Variant.Filled" Color="Color.Primary"
+                   Class="rounded-none! flex-1 whitespace-nowrap px-12">
+            Start Selling
+        </MudButton>
+    </div>
+    <div class="flex items-center lg:hidden pr-6">
+        <NavBarSideBar NavItems="_navItems" />
+    </div>
+</nav>
+
+@code {
+
+    private readonly NavItem[] _navItems = 
+    {
+        new NavItem("/", "Home"),
+        new NavItem("/about", "About"),
+        new NavItem("/features", "Features"),
+        new NavItem("/pricing", "Pricing"),
+        new NavItem("/contact", "Contact"),
+    };
+}
