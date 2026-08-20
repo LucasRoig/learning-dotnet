@@ -1,0 +1,14 @@
+<div class="flex items-center gap-2 w-full">
+    <div class="relative w-full">
+        <MudTextField @bind-Value=searchText Variant="Variant.Outlined" Placeholder="Search..."
+                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" 
+                      Disabled=@Disabled />
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public bool Disabled { get; set; } = false;
+
+    private string searchText = string.Empty;
+}
