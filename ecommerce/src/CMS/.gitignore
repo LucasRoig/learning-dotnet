@@ -480,3 +480,6 @@ umbraco-package-schema.json
 
 # Media files
 /wwwroot/media/
+
+# uSync: keep the serialized schema (uSync/v18), ignore local import/export history
+/uSync/history/
