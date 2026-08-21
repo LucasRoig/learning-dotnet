@@ -1,5 +1,4 @@
-﻿@using Ecommerce.WebApp.Client.Layout.SearchFilters
-@using Ecommerce.WebApp.Components.Layout.NavBar
+﻿@using Ecommerce.WebApp.Components.Layout.NavBar
 @inherits LayoutComponentBase
 
 <MudThemeProvider />
@@ -11,7 +10,7 @@
   <header class="bg-white shadow-sm  min-w-[min(1080px, calc(100vw-2rem))]">
     <NavBar />
   </header>
-    <SearchFilters />
+    <SearchFiltersHost />
 
   <main class="flex-1 min-w-[min(1080px, calc(100vw-2rem))] mx-auto">
     @Body

@@ -1,4 +1,4 @@
 namespace Ecommerce.WebApp.Client.Layout.SearchFilters;
 
-public record Category(string Id, string Name, SubCategory[]? Children);
-public record SubCategory(string Id, string Name);
+public record Category(Guid Id, string Name, string? Color, SubCategory[] Children);
+public record SubCategory(Guid Id, string Name, string? Color);
