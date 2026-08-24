@@ -1,5 +1,10 @@
 @rendermode InteractiveAuto
 <div class="px-4 lg:px-12 py-8 flex flex-col gap-4 w-full border-b border-gray-200">
     <SearchInput />
-    <Categories />
+    <Categories Items="Categories" />
 </div>
+
+@code {
+    [Parameter, EditorRequired]
+    public required Category[] Categories { get; set; }
+}

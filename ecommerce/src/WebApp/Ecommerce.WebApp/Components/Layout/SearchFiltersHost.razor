@@ -1,0 +1,63 @@
+@attribute [StreamRendering]
+@using System.Runtime.ExceptionServices
+@using Ecommerce.WebApp.Client.Layout.SearchFilters
+@using Ecommerce.WebApp.Services
+@inject CategoryTreeClient CategoryTreeClient
+@inject IHostEnvironment HostEnvironment
+@inject ILogger<SearchFiltersHost> Logger
+
+@if (result is CategoryTreeResult.Success success)
+{
+    <SearchFilters Categories="success.Categories" />
+}
+else if (result is null)
+{
+    <div role="status" aria-label="Loading filters"
+         class="px-4 lg:px-12 py-8 flex flex-col gap-4 w-full border-b border-gray-200 animate-pulse">
+        <div class="h-14 w-full rounded bg-gray-200"></div>
+        <div class="flex gap-4">
+            @for (var i = 0; i < SkeletonCategoryCount; i++)
+            {
+                <div class="h-9 w-28 rounded bg-gray-200"></div>
+            }
+        </div>
+    </div>
+}
+else
+{
+    <div role="alert" class="px-4 lg:px-12 py-8 w-full border-b border-gray-200 text-red-700">
+        Categories could not be loaded.
+    </div>
+}
+
+@code {
+    // Placeholder count only; the real number is unknown until the CMS answers.
+    private const int SkeletonCategoryCount = 5;
+
+    private CategoryTreeResult? result;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Task.Delay(2000);
+        result = await CategoryTreeClient.GetAsync();
+
+        switch (result)
+        {
+            case CategoryTreeResult.Unreachable(var ex):
+                Logger.LogError(ex, "The CMS could not be reached while loading the category tree.");
+                break;
+
+            case CategoryTreeResult.NotFound:
+                Logger.LogError("The CMS has no published '/categories' root.");
+                break;
+
+            case CategoryTreeResult.ContractDrift(var ex):
+                Logger.LogError(ex, "The category tree response no longer matches the expected contract.");
+                if (HostEnvironment.IsDevelopment())
+                {
+                    ExceptionDispatchInfo.Capture(ex).Throw();
+                }
+                break;
+        }
+    }
+}

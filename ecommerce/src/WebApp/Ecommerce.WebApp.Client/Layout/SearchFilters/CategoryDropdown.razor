@@ -1,13 +1,13 @@
 <div class="relative" @onmouseenter="HandleMouseEnter" @onmouseleave="HandleMouseLeave">
-    <MudButton>
+    <MudButton Style="@ColorStyle(category.Color)">
         @category.Name
     </MudButton>
-    @if (category.Children != null && category.Children.Length > 0 && isOpen)
+    @if (category.Children.Length > 0 && isOpen)
     {
         <div class="absolute top-full left-0 right-0  bg-white shadow-md py-4">
             @foreach (var subCategory in category.Children)
             {
-                <NavLink Class="w-full text-left hover:font-semibold py-2 px-2 block" href="#">
+                <NavLink Class="w-full text-left hover:font-semibold py-2 px-2 block" href="#" style="@ColorStyle(subCategory.Color)">
                     @subCategory.Name
                 </NavLink>
             }
@@ -27,9 +27,13 @@
 
     private bool isOpen = false;
 
+    // Inline style rather than a Tailwind class: the value comes from the CMS at runtime and would be purged at build time.
+    private static string? ColorStyle(string? color) =>
+        string.IsNullOrWhiteSpace(color) ? null : $"color: {color};";
+
     private void HandleMouseEnter()
     {
-        if (this.category.Children != null && this.category.Children.Length > 0)
+        if (this.category.Children.Length > 0)
         {
             this.isOpen = true;
         }

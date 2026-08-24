@@ -1,5 +1,6 @@
 using Ecommerce.WebApp.Client.Pages;
 using Ecommerce.WebApp.Components;
+using Ecommerce.WebApp.Services;
 using MudBlazor.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +11,10 @@ builder.Services.AddRazorComponents()
     .AddInteractiveWebAssemblyComponents();
 
 builder.Services.AddMudServices();
+
+builder.Services.AddHttpClient<CategoryTreeClient>(client =>
+    client.BaseAddress = new Uri(builder.Configuration["Cms:BaseUrl"]
+        ?? throw new InvalidOperationException("Missing configuration value 'Cms:BaseUrl'.")));
 
 var app = builder.Build();
 
