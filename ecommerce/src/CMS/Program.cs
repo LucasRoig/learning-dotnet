@@ -1,4 +1,6 @@
 
+using OpenIddict.Server.AspNetCore;
+
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 builder.CreateUmbracoBuilder()
@@ -6,6 +8,14 @@ builder.CreateUmbracoBuilder()
     .AddDeliveryApi()
     .AddComposers()
     .Build();
+
+if (builder.Environment.IsDevelopment())
+{
+    builder.Services.Configure<OpenIddictServerAspNetCoreOptions>(options =>
+    {
+        options.DisableTransportSecurityRequirement = true;
+    });
+}
 
 WebApplication app = builder.Build();
 
