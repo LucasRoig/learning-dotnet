@@ -36,8 +36,14 @@ else
 
     private CategoryTreeResult? result;
 
+    protected override void OnInitialized()
+    {
+        if (CategoryTreeClient.TryGetCached(out var cached)) result = cached;
+    }
+
     protected override async Task OnInitializedAsync()
     {
+        if (result is not null) return;
         await Task.Delay(2000);
         result = await CategoryTreeClient.GetAsync();
 

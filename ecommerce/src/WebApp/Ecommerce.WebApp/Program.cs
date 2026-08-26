@@ -1,7 +1,7 @@
-using Ecommerce.WebApp.Client.Pages;
 using Ecommerce.WebApp.Components;
 using Ecommerce.WebApp.Services;
 using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.Extensions.Caching.Memory;
 using MudBlazor.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,9 +20,12 @@ builder.Services.AddRazorComponents()
 
 builder.Services.AddMudServices();
 
+builder.Services.AddSingleton<IMemoryCache, MemoryCache>();
+
 builder.Services.AddHttpClient<CategoryTreeClient>(client =>
     client.BaseAddress = new Uri(builder.Configuration["Cms:BaseUrl"]
         ?? throw new InvalidOperationException("Missing configuration value 'Cms:BaseUrl'.")));
+builder.Services.Configure<CategoryTreeOptions>(builder.Configuration.GetSection("Cms"));
 
 var app = builder.Build();
 

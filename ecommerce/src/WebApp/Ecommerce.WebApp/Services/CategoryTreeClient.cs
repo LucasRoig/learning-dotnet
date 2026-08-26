@@ -2,11 +2,26 @@ using System.Net;
 using System.Net.Http.Json;
 using System.Text.Json;
 using Ecommerce.WebApp.Client.Layout.SearchFilters;
+using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Options;
 
 namespace Ecommerce.WebApp.Services;
 
-public sealed class CategoryTreeClient(HttpClient httpClient)
+public sealed class CategoryTreeOptions
 {
+    public TimeSpan? CategoryTreeCacheDuration { get; init; }
+}
+
+public sealed class CategoryTreeClient(HttpClient httpClient, IMemoryCache memoryCache, IOptions<CategoryTreeOptions> options)
+{
+    private const string CacheKey = "category-tree";
+    private readonly TimeSpan? cacheDuration = options.Value.CategoryTreeCacheDuration;
+
+    public bool TryGetCached(out CategoryTreeResult.Success? result)
+    {
+        result = null;
+        return cacheDuration is not null && memoryCache.TryGetValue(CacheKey, out result);
+    }
     private const string Route = "umbraco/delivery/api/v2/custom/category-tree";
 
     // System.Text.Json ignores nullability and constructor requiredness by default, so a renamed or
@@ -34,11 +49,20 @@ public sealed class CategoryTreeClient(HttpClient httpClient)
                 .ReadFromJsonAsync<CategoryTreeItem[]>(SerializerOptions, cancellationToken)
                 ?? throw new JsonException($"'{Route}' returned a null payload.");
 
-            return new CategoryTreeResult.Success([.. tree.Select(item => new Category(
+            var success = new CategoryTreeResult.Success([.. tree.Select(item => new Category(
                 item.Id,
                 item.Name,
                 item.Color,
                 [.. item.Children.Select(child => new SubCategory(child.Id, child.Name, child.Color))]))]);
+
+
+            if (cacheDuration is { } duration)
+            {
+                memoryCache.Set(CacheKey, success, duration);
+            }
+
+
+            return success;
         }
         // A non-JSON content type means the CMS is answering with something else entirely, e.g. an error page.
         catch (Exception ex) when (ex is JsonException or NotSupportedException)
