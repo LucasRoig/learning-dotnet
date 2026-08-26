@@ -1,9 +1,17 @@
 using Ecommerce.WebApp.Client.Pages;
 using Ecommerce.WebApp.Components;
 using Ecommerce.WebApp.Services;
+using Microsoft.AspNetCore.HttpOverrides;
 using MudBlazor.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+
+
+builder.Services.Configure<ForwardedHeadersOptions>(options =>
+{
+    options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+    options.KnownProxies.Add(System.Net.IPAddress.Parse("127.0.0.1"));
+});
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
