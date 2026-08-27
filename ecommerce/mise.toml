@@ -1,0 +1,14 @@
+[tasks.tailwind]
+run = "tailwindcss --cwd src/WebApp/Ecommerce.WebApp -i ./Styles/app.tailwind.css -o ./wwwroot/app.tailwind.css --watch"
+
+[tasks.watch-frontend]
+dir = "src/WebApp/Ecommerce.WebApp"
+run = "dotnet watch -lp https"
+
+[tasks.cms]
+dir = "src/CMS"
+run = "dotnet run"
+
+[tasks.gateway]
+dir = "src/Gateway/Ecommerce.Gateway"
+run = "dotnet run -lp https"
