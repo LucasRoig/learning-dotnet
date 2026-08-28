@@ -1,0 +1,87 @@
+@inject IJSRuntime JS
+@implements IAsyncDisposable
+
+<div class="relative max-w-full">
+    <CategoriesSidebar IsOpen="@isSidebarOpen" Categories="@Items" />
+    <div class="flex gap-4 content-between" @ref="containerRef">
+        @if (visibleCount > 0)
+        {
+            @foreach (var category in Items[0..visibleCount])
+            {
+                <div @key=category.Id>
+                    <CategoryDropdown category=@category />
+                </div>
+            }
+            <ViewAllCategoriesButtons OnClick="@OpenSideBar" />
+        }
+        else
+        {
+            <div>Loading...</div>
+        }
+    </div>
+
+    <div class="absolute opacity-0 pointer-events-none flex gap-4 max-w-full overflow-clip" aria-hidden="true" @ref="measureRef">
+        @foreach (var category in Items)
+        {
+            <div @key=category.Id>
+                <CategoryDropdown category=@category />
+            </div>
+        }
+        <div @ref="viewAllRef">
+            <ViewAllCategoriesButtons />
+        </div>
+    </div>
+</div>
+
+@code {
+    private IJSObjectReference? module;
+    private DotNetObjectReference<Categories>? dotNetRef;
+    private int visibleCount;
+    ElementReference containerRef;
+    ElementReference viewAllRef;
+    ElementReference measureRef;
+
+    [Parameter, EditorRequired]
+    public required Category[] Items { get; set; }
+
+    private bool isSidebarOpen = false;
+
+    private void OpenSideBar()
+    {
+        isSidebarOpen = true;
+    }
+
+    override protected async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+        if (firstRender)
+        {
+            this.dotNetRef = DotNetObjectReference.Create(this);
+            module = await JS.InvokeAsync<IJSObjectReference>(
+            "import",
+            "./Layout/SearchFilters/Categories.razor.js");
+            await module.InvokeVoidAsync("startObserving", containerRef, viewAllRef, measureRef, dotNetRef);
+        }
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (module != null)
+        {
+            await module.InvokeVoidAsync("stopObserving");
+            await module.DisposeAsync();
+        }
+        dotNetRef?.Dispose();
+    }
+
+    [JSInvokable]
+    public void SetVisibleCount(int count)
+    {
+        var clamped = Math.Clamp(count, 0, Items.Length);
+        if (clamped != visibleCount)
+        {
+            visibleCount = clamped;
+            StateHasChanged();
+        }
+    }
+}

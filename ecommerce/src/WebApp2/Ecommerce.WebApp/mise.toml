@@ -1,0 +1,9 @@
+[tasks.tailwind]
+run = "tailwindcss -i ./Styles/app.tailwind.css -o ./wwwroot/app.tailwind.css --watch"
+
+[tasks.publish]
+run = """
+powershell.exe -NoProfile -Command "Stop-WebSite Ecommerce"
+dotnet publish -c Release -o $IIS_OUTPUT/ecommerce
+powershell.exe -NoProfile -Command "Start-WebSite Ecommerce"
+"""

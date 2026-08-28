@@ -1,0 +1,45 @@
+@rendermode InteractiveAuto
+
+<MudIconButton Variant="Variant.Text" OnClick="@OpenDrawer" aria-label="open drawer">
+    <MudIcon Icon="@Icons.Material.Filled.Menu" />
+</MudIconButton>
+<MudDrawer @bind-Open="@_open" Anchor="Anchor.Start" OverlayAutoClose=@true Elevation="1"
+           Variant="@DrawerVariant.Temporary" Fixed="@true">
+    <MudNavMenu>
+        <div class="p-3">
+            <MudText Class="text-3xl font-semibold">Menu</MudText>
+        </div>
+        <MudDivider />
+        <div>
+            @foreach (NavItem navItem in NavItems)
+            {
+                <MudNavLink Href="@navItem.Href" Match="NavLinkMatch.All">
+                    <span>@navItem.Text</span>
+                </MudNavLink>
+            }
+        </div>
+        <MudDivider />
+        <div>
+            <MudNavLink Href="/sign-in" Match="NavLinkMatch.All">
+                <span>Login</span>
+            </MudNavLink>
+        </div>
+        <div>
+            <MudNavLink Href="/sign-up" Match="NavLinkMatch.All">
+                <span>Start Selling</span>
+            </MudNavLink>
+        </div>
+    </MudNavMenu>
+</MudDrawer>
+
+@code {
+    [Parameter, EditorRequired]
+    public required NavItem[] NavItems { get; set; }
+
+    private bool _open;
+
+    private void OpenDrawer()
+    {
+        _open = true;
+    }
+}

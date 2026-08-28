@@ -1,0 +1,31 @@
+﻿@using Ecommerce.WebApp.Client.Layout.NavBar
+@using Ecommerce.WebApp.Client.Layout.SearchFilters
+@inherits LayoutComponentBase
+
+<MudThemeProvider />
+<MudPopoverProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+<MudLayout Class="flex flex-col min-h-screen">
+  <header class="bg-white shadow-sm  min-w-[min(1080px, calc(100vw-2rem))]">
+    <NavBar />
+  </header>
+  <SearchFilters />
+
+  <main class="flex-1 min-w-[min(1080px, calc(100vw-2rem))] mx-auto">
+    @Body
+  </main>
+
+  <footer class="mt-auto bg-white border-t border-gray-200">
+    <div class="min-w-[min(1080px, calc(100vw-2rem))] mx-auto flex justify-between font-medium p-6">
+       <MudText Typo="Typo.body2">funroad, Inc.</MudText>
+    </div>
+  </footer>
+</MudLayout>
+
+<div id="blazor-error-ui" data-nosnippet>
+  An unhandled error has occurred.
+  <a href=".">Reload</a>
+  <span>🗙</span>
+</div>

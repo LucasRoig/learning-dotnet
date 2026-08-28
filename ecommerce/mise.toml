@@ -2,7 +2,7 @@
 run = "tailwindcss --cwd src/WebApp/Ecommerce.WebApp -i ./Styles/app.tailwind.css -o ./wwwroot/app.tailwind.css --watch"
 
 [tasks.watch-frontend]
-dir = "src/WebApp/Ecommerce.WebApp"
+dir = "src/WebApp2/Ecommerce.WebApp"
 run = "dotnet watch -lp https"
 
 [tasks.cms]

@@ -1,0 +1,5 @@
+@layer  theme, base, components, mudblazor, utilities;
+
+@import "tailwindcss";
+@source "../../Ecommerce.WebApp.Client/";
+@import "./vendor/MudBlazor.min.css" layer(mudblazor);

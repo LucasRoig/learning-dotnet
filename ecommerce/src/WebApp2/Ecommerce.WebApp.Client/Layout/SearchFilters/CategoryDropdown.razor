@@ -1,0 +1,42 @@
+<div class="relative" @onmouseenter="HandleMouseEnter" @onmouseleave="HandleMouseLeave">
+    <MudButton Class="whitespace-nowrap">
+        @category.Name
+    </MudButton>
+    @if (category.Children.Length > 0 && isOpen)
+    {
+        <div class="absolute top-full left-0 z-10 w-full min-w-max bg-white shadow-md py-4">
+            @foreach (var subCategory in category.Children)
+            {
+                <NavLink Class="text-left hover:font-semibold py-2 px-2 block whitespace-nowrap" href="#">
+                    @subCategory.Name
+                </NavLink>
+            }
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter, EditorRequired]
+    public required Category category { get; set; }
+
+    [Parameter]
+    public bool isActive { get; set; } = false;
+
+    [Parameter]
+    public bool isNavigationHover { get; set; } = false;
+
+    private bool isOpen = false;
+
+    private void HandleMouseEnter()
+    {
+        if (this.category.Children.Length > 0)
+        {
+            this.isOpen = true;
+        }
+    }
+
+    private void HandleMouseLeave()
+    {
+        this.isOpen = false;
+    }
+}
