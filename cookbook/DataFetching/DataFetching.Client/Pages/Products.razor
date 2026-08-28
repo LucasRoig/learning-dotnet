@@ -1,0 +1,35 @@
+@using DataFetching.Shared.Features.Products
+@page "/"
+@inject IProductService ProductService
+@inject PersistentComponentState PersistentComponentState
+
+
+<h1>Products</h1>
+<a href="/other">Change page to see fetching behavior</a>
+@if (products == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <ul>
+        @foreach (var product in products)
+        {
+            <li>@product.Name</li>
+        }
+    </ul>
+}
+
+@code {
+    [PersistentState]
+    public List<ProductDTO>? products { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (products == null)
+        {
+            // This one line of code works flawlessly in BOTH environments!
+            products = await ProductService.GetProductsAsync();
+        }
+    }
+}
