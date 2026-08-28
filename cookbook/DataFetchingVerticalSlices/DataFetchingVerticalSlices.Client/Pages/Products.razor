@@ -1,0 +1,43 @@
+@using DataFetchingVerticalSlices.Shared.Features.Products
+@using DataFetchingVerticalSlices.Shared.Common
+@page "/"
+
+@inject IGetAllProducts.IHandler GetAllProducts
+@inject PersistentComponentState PersistentComponentState
+
+
+<h1>Products</h1>
+<a href="/other">Change page to see fetching behavior</a>
+@if (products == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <ul>
+        @foreach (var product in products.Items)
+        {
+            <li>@product.Name</li>
+        }
+    </ul>
+}
+
+@code {
+    @* [PersistentState] *@
+    public PagedList<IGetAllProducts.Response>? products { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (products == null)
+        {
+            // This one line of code works flawlessly in BOTH environments!
+            var result = await GetAllProducts.Handle(new IGetAllProducts.Query(), CancellationToken.None);
+            if (result.IsSuccess) {
+                products = result.Value;
+            } else {
+                // Handle the error case here, e.g., log it or show a message to the user
+                Console.Error.WriteLine("Failed to fetch products.");
+            }
+        }
+    }
+}

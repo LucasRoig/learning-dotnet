@@ -3,6 +3,10 @@
     <Project Path="DataFetching/DataFetching.Client/DataFetching.Client.csproj" />
     <Project Path="DataFetching/DataFetching/DataFetching.csproj" />
   </Folder>
+  <Folder Name="/DataFetchingVerticalSlices/">
+    <Project Path="DataFetchingVerticalSlices/DataFetchingVerticalSlices.Client/DataFetchingVerticalSlices.Client.csproj" />
+    <Project Path="DataFetchingVerticalSlices/DataFetchingVerticalSlices/DataFetchingVerticalSlices.csproj" />
+  </Folder>
   <Folder Name="/TailwindIntegration/">
     <Project Path="TailwindIntegration/TailwindIntegration.Client/TailwindIntegration.Client.csproj" />
     <Project Path="TailwindIntegration/TailwindIntegration/TailwindIntegration.csproj" />
