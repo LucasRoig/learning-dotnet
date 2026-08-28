@@ -7,7 +7,6 @@
 
 
 <h1>Products</h1>
-<a href="/other">Change page to see fetching behavior</a>
 @if (products == null)
 {
     <p>Loading...</p>
@@ -17,13 +16,13 @@ else
     <ul>
         @foreach (var product in products.Items)
         {
-            <li>@product.Name</li>
+            <li>@product.Name / @product.Price</li>
         }
     </ul>
 }
 
 @code {
-    @* [PersistentState] *@
+    [PersistentState]
     public PagedList<IGetAllProducts.Response>? products { get; set; }
 
     protected override async Task OnInitializedAsync()
