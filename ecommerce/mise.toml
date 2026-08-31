@@ -1,5 +1,5 @@
 [tasks.tailwind]
-run = "tailwindcss --cwd src/WebApp/Ecommerce.WebApp -i ./Styles/app.tailwind.css -o ./wwwroot/app.tailwind.css --watch"
+run = "tailwindcss --cwd src/WebApp2/Ecommerce.WebApp -i ./Styles/app.tailwind.css -o ./wwwroot/app.tailwind.css --watch"
 
 [tasks.watch-frontend]
 dir = "src/WebApp2/Ecommerce.WebApp"
