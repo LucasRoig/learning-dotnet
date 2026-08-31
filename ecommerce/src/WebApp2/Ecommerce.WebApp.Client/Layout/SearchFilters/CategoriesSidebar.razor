@@ -1,0 +1,80 @@
+@implements IDisposable
+
+<MudDrawer Class="fixed" Open="@(Context?.IsOpen ?? false)" OpenChanged="@HandleOpenChanged" Anchor="Anchor.Start" OverlayAutoClose=@true
+           Elevation="1" Variant="@DrawerVariant.Temporary" Fixed=@true>
+    <div>
+        <MudText Class="text-3xl font-semibold p-3">Categories</MudText>
+    </div>
+    <MudDivider Class="m-0" DividerType="DividerType.Middle" />
+    <div class="flex flex-col">
+        @if (SelectedCategory is null)
+        {
+            @foreach (var category in Categories ?? Array.Empty<Category>())
+            {
+                @if (category.Children != null && category.Children.Length > 0)
+                {
+                    <button class="w-full p-3 hover:bg-black hover:text-white cursor-pointer flex items-center justify-start"
+                            @onclick="() => SelectedCategory = category">
+                        <span>@category.Name</span>
+                        <MudIcon Class="ml-auto" Icon="@Icons.Material.Filled.ChevronRight" />
+                    </button>
+                }
+                else
+                {
+                    <a @onclick="@(() => HandleOpenChanged(false))"
+                       class="w-full p-3 hover:bg-black hover:text-white cursor-pointer flex items-center justify-start"
+                       href="/categories/@category.Name">
+                        <span>@category.Name</span>
+                    </a>
+                }
+            }
+        }
+        else
+        {
+            <button class="w-full p-3 hover:bg-black hover:text-white cursor-pointer flex items-center justify-start"
+                    @onclick="() => SelectedCategory = null">
+                <MudIcon Icon="@Icons.Material.Filled.ChevronLeft" />
+                <span class="ml-2">Back</span>
+            </button>
+            @foreach (var category in SelectedCategory.Children)
+            {
+                <a @onclick="@(() => HandleOpenChanged(false))"
+                   class="w-full p-3 hover:bg-black hover:text-white cursor-pointer flex items-center justify-start"
+                   href="/categories/@SelectedCategory.Name/@category.Name">
+                    <span>@category.Name</span>
+                </a>
+            }
+        }
+    </div>
+</MudDrawer>
+
+@code {
+    [CascadingParameter]
+    public required CategoriesSidebarContext? Context { get; set; }
+    private CategoriesSidebarContext? _subscribed;
+
+
+    [Parameter, EditorRequired]
+    public required Category[]? Categories { get; set; }
+
+    private Category? SelectedCategory { get; set; }
+
+    private void HandleOpenChanged(bool value)
+    {
+        SelectedCategory = null;
+        Context?.SetIsOpen(value);
+    }
+
+     protected override void OnParametersSet()
+    {
+        if (ReferenceEquals(_subscribed, Context)) return;
+        if (_subscribed is not null) _subscribed.OnChange -= StateHasChanged;
+        _subscribed = Context;
+        if (_subscribed is not null) _subscribed.OnChange += StateHasChanged;
+    }
+
+    public void Dispose()
+    {
+        if (_subscribed is not null) _subscribed.OnChange -= StateHasChanged;
+    }
+}

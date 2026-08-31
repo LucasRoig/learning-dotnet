@@ -1,0 +1,45 @@
+@using Ecommerce.WebApp.Shared.Features.Categories
+
+@inject IGetCategoryTree.IHandler CategoryTreeHandler
+
+<div class="px-4 lg:px-12 py-8 flex flex-col gap-4 w-full border-b border-gray-200">
+    <CascadingValue Value="@SidebarContext">
+        <SearchInput />
+        @if (Categories is not null) {
+            <div class="hidden lg:block">
+                <Categories Items="Categories" />
+            </div>
+        }
+        <CategoriesSidebar Categories="@Categories" />
+    </CascadingValue>
+</div>
+
+@code {
+    [PersistentState]
+    public Category[]? Categories { get; set; }
+
+    private CategoriesSidebarContext SidebarContext = new CategoriesSidebarContext();
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (Categories == null)
+        {
+            // This one line of code works flawlessly in BOTH environments!
+            var result = await CategoryTreeHandler.Handle(new IGetCategoryTree.Query(), CancellationToken.None);
+            if (result.IsSuccess)
+            {
+                Categories = result.Value.Items.Select(x => new Category(
+                    Id: x.Id,
+                    Name: x.Name,
+                    Color: x.Color,
+                    Children: x.Children.Select(c => new SubCategory(c.Id, c.Name, c.Color)).ToArray()
+                )).ToArray();
+            }
+            else
+            {
+                // Handle the error case here, e.g., log it or show a message to the user
+                Console.Error.WriteLine("Failed to fetch categories.");
+            }
+        }
+    }
+}

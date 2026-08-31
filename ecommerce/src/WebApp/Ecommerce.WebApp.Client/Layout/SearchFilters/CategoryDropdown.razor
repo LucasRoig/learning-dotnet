@@ -1,13 +1,13 @@
 <div class="relative" @onmouseenter="HandleMouseEnter" @onmouseleave="HandleMouseLeave">
-    <MudButton Style="@ColorStyle(category.Color)">
+    <MudButton Class="whitespace-nowrap">
         @category.Name
     </MudButton>
     @if (category.Children.Length > 0 && isOpen)
     {
-        <div class="absolute top-full left-0 right-0  bg-white shadow-md py-4">
+        <div class="absolute top-full left-0 z-10 w-full min-w-max bg-white shadow-md py-4">
             @foreach (var subCategory in category.Children)
             {
-                <NavLink Class="w-full text-left hover:font-semibold py-2 px-2 block" href="#" style="@ColorStyle(subCategory.Color)">
+                <NavLink Class="text-left hover:font-semibold py-2 px-2 block whitespace-nowrap" href="#">
                     @subCategory.Name
                 </NavLink>
             }
@@ -26,10 +26,6 @@
     public bool isNavigationHover { get; set; } = false;
 
     private bool isOpen = false;
-
-    // Inline style rather than a Tailwind class: the value comes from the CMS at runtime and would be purged at build time.
-    private static string? ColorStyle(string? color) =>
-        string.IsNullOrWhiteSpace(color) ? null : $"color: {color};";
 
     private void HandleMouseEnter()
     {

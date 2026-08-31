@@ -1,0 +1,8 @@
+<MudButton @onclick="OnClick" Class="whitespace-nowrap" EndIcon="@Icons.Material.Filled.FilterList">
+    View All
+</MudButton>
+
+@code {
+    [Parameter]
+    public EventCallback<MouseEventArgs> OnClick { get; set; }
+}

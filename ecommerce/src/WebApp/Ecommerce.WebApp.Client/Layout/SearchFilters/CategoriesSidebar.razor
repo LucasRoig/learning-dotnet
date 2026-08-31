@@ -1,0 +1,55 @@
+<MudDrawer Class="fixed" Open="@IsOpen" OpenChanged="@((bool value) => IsOpen = value)" Anchor="Anchor.Start"
+           OverlayAutoClose=@true Elevation="1" Variant="@DrawerVariant.Temporary" Fixed=@true>
+    <div>
+        <MudText Class="text-3xl font-semibold p-3">Categories</MudText>
+    </div>
+    <MudDivider Class="m-0" DividerType="DividerType.Middle" />
+    <div class="flex flex-col">
+        @if (SelectedCategory is null)
+        {
+            @foreach (var category in Categories)
+            {
+                @if (category.Children != null && category.Children.Length > 0)
+                {
+                    <button class="w-full p-3 hover:bg-black hover:text-white cursor-pointer flex items-center justify-start"
+                            @onclick="() => SelectedCategory = category">
+                        <span>@category.Name</span>
+                        <MudIcon Class="ml-auto" Icon="@Icons.Material.Filled.ChevronRight" />
+                    </button>
+                }
+                else
+                {
+                    <a class="w-full p-3 hover:bg-black hover:text-white cursor-pointer flex items-center justify-start"
+                       href="/categories/@category.Name">
+                        <span>@category.Name</span>
+                    </a>
+                }
+            }
+        }
+        else
+        {
+            <button class="w-full p-3 hover:bg-black hover:text-white cursor-pointer flex items-center justify-start"
+                    @onclick="() => SelectedCategory = null">
+                <MudIcon Icon="@Icons.Material.Filled.ChevronLeft" />
+                <span class="ml-2">Back</span>
+            </button>
+            @foreach (var category in SelectedCategory.Children)
+            {
+                <a class="w-full p-3 hover:bg-black hover:text-white cursor-pointer flex items-center justify-start"
+                   href="/categories/@SelectedCategory.Name/@category.Name">
+                    <span>@category.Name</span>
+                </a>
+            }
+        }
+    </div>
+</MudDrawer>
+
+@code {
+    [Parameter, EditorRequired]
+    public required bool IsOpen { get; set; }
+
+    [Parameter, EditorRequired]
+    public required Category[] Categories { get; set; }
+
+    private Category? SelectedCategory { get; set; }
+}

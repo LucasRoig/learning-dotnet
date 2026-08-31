@@ -1,0 +1,14 @@
+@page "/categories/{*CategoryNames}"
+
+<div>
+    @foreach (var categoryName in CategoryNamesArray)
+    {
+        <div>@categoryName</div>
+    }
+</div>
+@code {
+    [Parameter, EditorRequired]
+    public required string CategoryNames { get; set; }
+
+    private string[] CategoryNamesArray => CategoryNames.Split('/');
+}

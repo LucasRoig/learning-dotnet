@@ -78,6 +78,7 @@ public sealed class CategoryTreeController : ControllerBase
         return content
             .Children(_navigationQueryService, _statusFilteringService)
             .Select(child => new CategoryTreeItem(child.Key, child.Name, child.Value<string>("color"), MapChildren(child, depth + 1)))
+            .OrderBy(item => item.Name)
             .ToArray();
     }
 }
