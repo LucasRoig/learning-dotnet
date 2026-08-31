@@ -4,11 +4,16 @@
                       Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" 
                       Disabled=@Disabled />
     </div>
+    <MudIconButton Icon="@Icons.Material.Filled.FilterList" @onclick="() => CategoriesSidebarContext.SetIsOpen(true)" Class="h-full lg:hidden"/>
+
 </div>
 
 @code {
     [Parameter]
     public bool Disabled { get; set; } = false;
+    
+    [CascadingParameter]
+    public required CategoriesSidebarContext CategoriesSidebarContext { get; set; }
 
     private string searchText = string.Empty;
 }

@@ -36,7 +36,8 @@ public static class GetCategoryTree
         {
             app.MapGet("/categories/tree", async (IGetCategoryTree.IHandler handler, CancellationToken cancellationToken) =>
             {
-                return await handler.Handle(new IGetCategoryTree.Query(), cancellationToken);
+                var result = await handler.Handle(new IGetCategoryTree.Query(), cancellationToken);
+                return result.Match(Results.Ok, CustomResults.Problem);
             });
         }
     }

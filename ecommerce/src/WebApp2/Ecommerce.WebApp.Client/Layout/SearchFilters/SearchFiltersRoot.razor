@@ -3,15 +3,22 @@
 @inject IGetCategoryTree.IHandler CategoryTreeHandler
 
 <div class="px-4 lg:px-12 py-8 flex flex-col gap-4 w-full border-b border-gray-200">
-    <SearchInput />
-    @if (Categories is not null) {
-        <Categories Items="Categories" />
-    }
+    <CascadingValue Value="@SidebarContext">
+        <SearchInput />
+        @if (Categories is not null) {
+            <div class="hidden lg:block">
+                <Categories Items="Categories" />
+            </div>
+        }
+        <CategoriesSidebar Categories="@Categories" />
+    </CascadingValue>
 </div>
 
 @code {
     [PersistentState]
     public Category[]? Categories { get; set; }
+
+    private CategoriesSidebarContext SidebarContext = new CategoriesSidebarContext();
 
     protected override async Task OnInitializedAsync()
     {
